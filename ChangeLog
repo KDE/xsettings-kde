@@ -1,3 +1,7 @@
+2011-02-07 09:45  dmorgan
+
+    * Makefile: Release 0.12
+
 2011-02-07 09:41  dmorgan
 
     * xsettings-kde.c: Add fedora patch
