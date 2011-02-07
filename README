@@ -1,0 +1,14 @@
+XSettings-KDE is a XSettings (http://freedesktop.org/wiki/Standards_2fxsettings_2dspec ) daemon, wrapping some KDE configuration paramaters for XSettings aware applications, such as most GTK+ 2 applications and GNOME 2 applications.
+
+Currently, it allows those applications to receive instant notification of the following changes in KDE configuration :
+-default font name and size
+-theme name
+-icon theme name
+-maximum interval of time between two clicks to be considered as a double-click
+-threshold to trigger drag and drop
+-icon presence in stock buttons
+-toolbar style (text only, icons only, ...)
+
+This daemon is based on Owen Taylor xsetting reference implementation which can be found on http://cvs.freedesktop.org/xsettings/xsettings/
+
+
