@@ -2,7 +2,7 @@ PACKAGE=xsettings-kde
 VERSION=0.12
 lib=lib
 TAG := $(shell echo "V$(VERSION)_$(RELEASE)" | tr -- '-.' '__')
-SVNROOT = svn+ssh://svn.mageia.org/svn/soft/theme/$(PACKAGE)
+SVNROOT = svn+ssh://dmorgan@svn.mageia.org/svn/soft/theme/$(PACKAGE)
 
 CFLAGS= -Wall -g
 xsettings_kde_CFLAGS = $(shell pkg-config --cflags x11 gio-2.0 gthread-2.0)
