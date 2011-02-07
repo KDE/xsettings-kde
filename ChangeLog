@@ -1,3 +1,15 @@
+2011-02-07 09:41  dmorgan
+
+    * xsettings-kde.c: Add fedora patch
+      * make GTK+ apps display menu images in KDE
+
+2011-02-07 09:11  dmorgan
+
+    * ., .cvsignore, .gitignore, COPYING, ChangeLog, Makefile, README,
+      xsettings-common.c, xsettings-common.h, xsettings-kde.c,
+      xsettings-manager.c, xsettings-manager.h: Import cleaned
+      xsettings-kde
+
 2009-08-19 10:01  Frederic Crozat <fcrozat at mandriva.com>
 
 	* Makefile: Release 0.11
