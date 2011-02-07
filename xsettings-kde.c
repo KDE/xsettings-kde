@@ -67,7 +67,7 @@ terminate_cb (void *data)
  * Gtk/Modules => not supported
  * Gtk/FileChooserBackend => forced to gnome-vfs
  * Gtk/ButtonImages => supported
- * Gtk/MenuImages => can't be configured in KDE
+ * Gtk/MenuImages => can't be configured in KDE, always set to true
  * Gtk/MenuBarAccel => not supported
  * Xft/Antialias => KDE uses .fonts.conf directly
  * Xft/Hinting => KDE uses .fonts.conf directly
@@ -485,6 +485,8 @@ void initial_init () {
 	for (i = 0 ; i < max_display ; i++) {                         
 		xsettings_manager_set_string(managers[i], "Gtk/FileChooserBackend", "gio");
 		xsettings_manager_set_string(managers[i], "Net/FallbackIconTheme", "gnome");
+       /* KDE always shows menu images, so make sure GTK+ does, too */
+        xsettings_manager_set_int(managers[i], "Gtk/MenuImages", 1);
 		xsettings_manager_notify (managers[i]);
 	}
 }
