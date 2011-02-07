@@ -1,5 +1,5 @@
 PACKAGE=xsettings-kde
-VERSION=0.11
+VERSION=0.12
 lib=lib
 TAG := $(shell echo "V$(VERSION)_$(RELEASE)" | tr -- '-.' '__')
 SVNROOT = svn+ssh://svn.mageia.org/svn/soft/theme/$(PACKAGE)
