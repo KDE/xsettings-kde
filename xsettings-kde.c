@@ -57,6 +57,7 @@ terminate_cb (void *data)
  * Net/FallbackIconTheme => supported
  * Gtk/CanChangeAccels => not supported
  * Gtk/ColorPalette => no added value
+ * Gtk/CursorThemeName => supported
  * Gtk/FontName => supported
  * Gtk/IconSizes => not really useful
  * Gtk/KeyThemeName => not supported
@@ -90,12 +91,14 @@ enum Section {
 	KDE,
 	Icons,
 	MainToolbarIcons,
-	Directories
+	Directories,
+	Mouse
 };
 
-static char * file_name [2] = {
+static char * file_name [3] = {
 	"kdeglobals",
-	"kcmfonts"
+	"kcmfionts",
+	"kcminputrc"
 };
 
 int readString (char *key, char * buffer, char *xsetting_key) {
@@ -235,7 +238,7 @@ void readConfig () {
 		file = NULL;
 	}
 
-      for (file_index = 0 ; file_index < 2 ; file_index++) {
+      for (file_index = 0 ; file_index < 3 ; file_index++) {
 
 	user_file = 0;
 	do {
@@ -282,13 +285,17 @@ void readConfig () {
 					if (strncmp(buffer, "[KDE]", 5) == 0)
 						section = KDE;
 					else {
-						if (strncmp(buffer, "[Icons]", 5) == 0)
+						if (strncmp(buffer, "[Icons]", 7) == 0)
 							section = Icons;
 						else { 
 							if (strncmp(buffer, "[MainToolbarIcons]", 18) == 0)
-							section = MainToolbarIcons;
-							else 
-							section = Unknown;
+								section = MainToolbarIcons;
+							else {
+								if (strncmp(buffer, "[Mouse]", 7) == 0)
+                               						section = Mouse;
+                               					else
+                               						section = Unknown;
+							}
 						}
 					}
 				}
@@ -388,6 +395,9 @@ void readConfig () {
 						found = 0;
 					}
 				}
+				break;
+			case Mouse:
+				notify |= readString ("cursorTheme", buffer, "Gtk/CursorThemeName");
 				break;
 			default: /* ignore the rest */
 				break;
