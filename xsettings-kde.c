@@ -330,10 +330,6 @@ void readConfig () {
 				
 				buttonIconSet |= readBoolean("ShowIconsOnPushButtons", buffer, "Gtk/ButtonImages");
 				notify |= buttonIconSet;
-				if (strncmp(buffer,"colorScheme=",12) == 0) {
-					strcpy(color, buffer+12);
-					color[strlen(color)-1]='\0';
-				}
 
 				break;
 			case General: 
@@ -355,6 +351,10 @@ void readConfig () {
 					/* found style */
 					sscanf(buffer,"widgetStyle=%s", style);
 
+				}
+				if (strncmp(buffer,"ColorScheme=",12) == 0) {
+					strcpy(color, buffer+12);
+					color[strlen(color)-1]='\0';
 				}
 				notify |= readDPI(buffer);
 
