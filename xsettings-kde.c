@@ -32,8 +32,12 @@
 #include <pwd.h>
 #include <unistd.h>
 #include <glib.h>
+#include <gio/gio.h>
 
 #include "xsettings-manager.h"
+
+#define IMMODULE_SCHEMA       "org.gnome.desktop.interface"
+#define IMMODULE_KEY          "gtk-im-module"
 
 static XSettingsManager **managers;
 static int max_display;
@@ -65,6 +69,7 @@ terminate_cb (void *data)
  * Gtk/ToolbarIconSize => implemented but disabled, doesn't seem to work in GTK+
  * Gtk/IMPreeditStyle => not supported
  * Gtk/IMStatusStyle => not supported
+ * Gtk/IMModule => supported
  * Gtk/Modules => not supported
  * Gtk/FileChooserBackend => forced to gnome-vfs
  * Gtk/ButtonImages => supported
@@ -189,6 +194,41 @@ int readDPI(char *buffer)
 	return 0;
 }
 
+static gboolean
+check_gsettings_schema (const gchar *schema)
+{
+  const gchar * const *schemas = g_settings_list_schemas ();
+  gint i;
+
+    for (i = 0; schemas[i] != NULL; i++) {
+      if (g_strcmp0 (schemas[i], schema) == 0)
+            return TRUE;
+  }
+  g_warning ("Settings schema '%s' is not installed.", schema);
+
+    return FALSE;
+}
+
+static void
+gsettings_changed (GSettings  *settings,
+         const char *key,
+         gpointer    user_data)
+{
+    gchar *val;
+    gint i;
+
+  if (g_strcmp0 (key, IMMODULE_KEY)) {
+        /* deal with Gtk/IMModule only so far */
+      return;
+    }
+
+  val = g_settings_get_string (settings, key);
+    for (i = 0; i < max_display; i++) {                         
+      xsettings_manager_set_string (managers[i], "Gtk/IMModule", val);
+      xsettings_manager_notify (managers[i]);
+  }
+  g_free(val);
+}
 
 void readConfig () {
 	FILE *file = NULL;
@@ -485,6 +525,18 @@ void initial_init () {
 	int i;
 	const char *kde_version;
 
+  GSettings *settings = NULL;
+  gchar *vgtkimm = NULL;
+
+    if (check_gsettings_schema (IMMODULE_SCHEMA)) {
+      settings = g_settings_new (IMMODULE_SCHEMA);
+      g_signal_connect (settings, "changed",
+                G_CALLBACK (gsettings_changed), NULL);
+
+        vgtkimm = g_settings_get_string (settings,
+                         IMMODULE_KEY);
+  }
+
 	kde_version = getenv("KDE_SESSION_VERSION");
 
 	if (kde_version && (kde_version[0] == '4'))
@@ -497,6 +549,8 @@ void initial_init () {
 		xsettings_manager_set_string(managers[i], "Net/FallbackIconTheme", "gnome");
        /* KDE always shows menu images, so make sure GTK+ does, too */
         xsettings_manager_set_int(managers[i], "Gtk/MenuImages", 1);
+      if (vgtkimm)
+            xsettings_manager_set_string (managers[i], "Gtk/IMModule", vgtkimm);
 		xsettings_manager_notify (managers[i]);
 	}
 }
@@ -515,6 +569,10 @@ xevent_handle (gpointer user_data)
     int i;
 
     while (1) {
+  if (!XPending(xev->display)) {
+        sleep(2);
+        continue;
+    }
         XNextEvent (xev->display, &xevent);
 
 	for (i = 0 ; i < max_display ; i++) {
@@ -551,6 +609,7 @@ int main (int argc, char **argv) {
   GMainLoop *loop;
 
   g_thread_init(NULL);
+  g_type_init();
 
   xev.display = XOpenDisplay (NULL);
   if (xev.display == NULL) {
