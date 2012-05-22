@@ -569,11 +569,7 @@ xevent_handle (gpointer user_data)
     int i;
 
     while (1) {
-  if (!XPending(xev->display)) {
-        sleep(2);
-        continue;
-    }
-        XNextEvent (xev->display, &xevent);
+	XNextEvent (xev->display, &xevent);
 
 	for (i = 0 ; i < max_display ; i++) {
 	    if (xsettings_manager_process_event (managers[i], &xevent))
