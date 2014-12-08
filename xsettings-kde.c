@@ -239,7 +239,6 @@ void readConfig () {
 	char filename[1024];
 	char kdeprefix[1024];
 	char *prefix;
-	char color[1024];
 	char style[1024];
 	char themefilename[1024];
 	struct passwd *password;
@@ -247,7 +246,6 @@ void readConfig () {
 	int user_file;
 	int file_index;
 
-	color[0]= '\0';
 	kdeprefix[0]= '\0';
 	filename[0]= '\0';
 	style[0]='\0';
@@ -386,16 +384,7 @@ void readConfig () {
 					}
 					notify = 1;
 				}
-				if (strncmp(buffer,"widgetStyle=",12) == 0) {
 
-					/* found style */
-					sscanf(buffer,"widgetStyle=%s", style);
-
-				}
-				if (strncmp(buffer,"ColorScheme=",12) == 0) {
-					strcpy(color, buffer+12);
-					color[strlen(color)-1]='\0';
-				}
 				notify |= readDPI(buffer);
 
 				break;
@@ -455,14 +444,6 @@ void readConfig () {
 		free (buffer);
 	}
 
-	if ((style[0] == '\0' || (!is_kde4 && strcmp(style, "ia_ora") == 0) || (is_kde4 && strcmp(style, "iaora-qt") == 0) || (is_kde4 && strcmp(style, "iaorakde") == 0)) && strncmp("Ia Ora ", color, 7) == 0)
-		       	{
-		strcpy(style, color);
-		if (!is_kde4) {
-			style[strlen(style)-6] = '\0';
-		}
-	}
-				
 	if (style[0]) {
 		int gtkrc_access = 1;
 		sprintf(themefilename, "/usr/share/themes/%s/gtk-2.0/gtkrc", style);
