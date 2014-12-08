@@ -530,6 +530,8 @@ void initial_init () {
 		xsettings_manager_set_string(managers[i], "Net/FallbackIconTheme", "gnome");
        /* KDE always shows menu images, so make sure GTK+ does, too */
         xsettings_manager_set_int(managers[i], "Gtk/MenuImages", 1);
+		/* KDE always pastes clipboard content on middle-click */
+		xsettings_manager_set_int(managers[i], "Gtk/EnablePrimaryPaste", 1);
       if (vgtkimm)
             xsettings_manager_set_string (managers[i], "Gtk/IMModule", vgtkimm);
 		xsettings_manager_notify (managers[i]);
