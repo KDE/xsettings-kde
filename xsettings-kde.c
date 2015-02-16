@@ -527,7 +527,7 @@ void initial_init () {
 
 	for (i = 0 ; i < max_display ; i++) {                         
 		xsettings_manager_set_string(managers[i], "Gtk/FileChooserBackend", "gio");
-		xsettings_manager_set_string(managers[i], "Net/FallbackIconTheme", "gnome");
+		xsettings_manager_set_string(managers[i], "Net/FallbackIconTheme", "Adwaita");
        /* KDE always shows menu images, so make sure GTK+ does, too */
         xsettings_manager_set_int(managers[i], "Gtk/MenuImages", 1);
 		/* KDE always pastes clipboard content on middle-click */
