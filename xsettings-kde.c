@@ -607,9 +607,6 @@ int main (int argc, char **argv) {
   struct xevent_data xev;
   GMainLoop *loop;
 
-  g_thread_init(NULL);
-  g_type_init();
-
   xev.display = XOpenDisplay (NULL);
   if (xev.display == NULL) {
 	  fprintf(stderr, "unable to open display\n");
@@ -655,7 +652,8 @@ int main (int argc, char **argv) {
 
   readConfig();
 
-  g_thread_create ((GThreadFunc)xevent_handle, &xev, FALSE, NULL);
+  g_thread_new ("handle-xevent", (GThreadFunc) xevent_handle, &xev);
+
   loop = g_main_loop_new (NULL, TRUE);
   g_main_loop_run (loop);
 
