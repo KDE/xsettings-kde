@@ -195,19 +195,37 @@ int readDPI(char *buffer)
 }
 
 static gboolean
-check_gsettings_schema (const gchar *schema)
+contained (char       **items,
+           const char  *item)
 {
-  const gchar * const *schemas = g_settings_list_schemas ();
-  gint i;
+	while (*items) {
+		if (g_strcmp0 (*items++, item) == 0) {
+			return TRUE;
+		}
+	}
 
-    for (i = 0; schemas[i] != NULL; i++) {
-      if (g_strcmp0 (schemas[i], schema) == 0)
-            return TRUE;
-  }
-  g_warning ("Settings schema '%s' is not installed.", schema);
-
-    return FALSE;
+	return FALSE;
 }
+
+static gboolean
+schema_is_installed (const char *schema)
+{
+	GSettingsSchemaSource *source = NULL;
+	gchar **non_relocatable = NULL;
+	gchar **relocatable = NULL;
+
+	source = g_settings_schema_source_get_default ();
+	if (!source) {
+		g_warning ("Settings schema '%s' is not installed.", schema);
+		return FALSE;
+	}
+
+	g_settings_schema_source_list_schemas (source, TRUE, &non_relocatable, &relocatable);
+
+	return (contained (non_relocatable, schema) ||
+		contained (relocatable, schema));
+}
+
 
 static void
 gsettings_changed (GSettings  *settings,
@@ -509,7 +527,7 @@ void initial_init () {
   GSettings *settings = NULL;
   gchar *vgtkimm = NULL;
 
-    if (check_gsettings_schema (IMMODULE_SCHEMA)) {
+    if (schema_is_installed (IMMODULE_SCHEMA)) {
       settings = g_settings_new (IMMODULE_SCHEMA);
       g_signal_connect (settings, "changed",
                 G_CALLBACK (gsettings_changed), NULL);
