@@ -1,7 +1,7 @@
 XSettings-KDE is a XSettings
 (http://standards.freedesktop.org/xsettings-spec/xsettings-latest.html) daemon, wrapping
 some KDE configuration paramaters for XSettings aware applications, such as
-most GTK+ 2 applications and GNOME 2 applications.
+most GTK+ applications.
 
 Currently, it allows those applications to receive instant notification of the
 following changes in KDE configuration:
