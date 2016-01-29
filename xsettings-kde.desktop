@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=xsettings-kde
+Name=XSettings-KDE
+X-KDE-autostart-after=kdesktop
+X-KDE-autostart-phase=1
+Type=Service
+OnlyShowIn=KDE;
