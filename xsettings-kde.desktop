@@ -1,6 +1,7 @@
 [Desktop Entry]
 Exec=xsettings-kde
 Name=XSettings-KDE
+Name[cs]=XSettings-KDE
 Name[es]=XSettings-KDE
 Name[gl]=XSettings-KDE
 Name[nl]=XSettings-KDE
