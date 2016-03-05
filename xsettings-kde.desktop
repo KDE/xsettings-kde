@@ -2,6 +2,7 @@
 Exec=xsettings-kde
 Name=XSettings-KDE
 Name[cs]=XSettings-KDE
+Name[de]=XSettings-KDE
 Name[es]=XSettings-KDE
 Name[fi]=XSettings-KDE
 Name[gl]=XSettings-KDE
