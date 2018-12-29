@@ -1,6 +1,21 @@
 [Desktop Entry]
 Exec=xsettings-kde
 Name=XSettings-KDE
+Name[cs]=XSettings-KDE
+Name[de]=XSettings-KDE
+Name[es]=XSettings-KDE
+Name[fi]=XSettings-KDE
+Name[fr]=XSettings-KDE
+Name[gl]=XSettings-KDE
+Name[it]=XSettings-KDE
+Name[nl]=XSettings-KDE
+Name[pl]=XSettings-KDE
+Name[pt]=XSettings-KDE
+Name[pt_BR]=XSettings-KDE
+Name[sk]=XSettings-KDE
+Name[sv]=XSettings-KDE
+Name[uk]=XSettings-KDE
+Name[x-test]=xxXSettings-KDExx
 X-KDE-autostart-after=kdesktop
 X-KDE-autostart-phase=1
 Type=Service
